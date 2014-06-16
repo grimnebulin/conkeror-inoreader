@@ -1,3 +1,18 @@
+//  A page mode for the site inoreader.com.  Performs the following
+//  steps:
+//
+//  Adds a stylesheet that renders <code> elements in the reader pane
+//  properly.
+//
+//  Defines a browser object class that targets only useful follow
+//  targets.
+//
+//  Passes various keypresses to the page rather than having Conkeror
+//  handle them.
+//
+//  Adds a command bound to control-shift-S to "star" the currently
+//  viewed article.
+
 (function () {
 
     const INOREADER_STYLE =
