@@ -47,6 +47,15 @@
     for (let key of "g,j,k,m,v,t,u,A,C-S".split(/,/))
         define_key(inoreader_keymap, key, null, $fallthrough);
 
+    define_key(inoreader_keymap, "C-M-N", scroll_subscriptions(+25));
+    define_key(inoreader_keymap, "C-M-P", scroll_subscriptions(-25));
+
+    function scroll_subscriptions(offset) {
+        return function (I) {
+            I.buffer.document.getElementById("tree_pane").scrollTop += offset;
+        };
+    }
+
     let (
         [enable, disable] = setup_mode(
             { normal: inoreader_keymap },
