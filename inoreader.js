@@ -49,11 +49,34 @@
 
     define_key(inoreader_keymap, "C-M-N", scroll_subscriptions(+25));
     define_key(inoreader_keymap, "C-M-P", scroll_subscriptions(-25));
+    define_key(inoreader_keymap, "C-c C-t", toggle_order);
 
     function scroll_subscriptions(offset) {
         return function (I) {
             I.buffer.document.getElementById("tree_pane").scrollTop += offset;
         };
+    }
+
+    const ARTICLE_ORDER = [ "newest", "oldest" ];
+
+    // Toggle article order between newest-first and oldest-first,
+    // bypassing the popular-first option:
+
+    function toggle_order(I) {
+        const $ = $$(I);
+        $("button#articles_order_button[title]").each(function () {
+            $(this).onAttrChange(() => {
+                let done = false;
+                maybe(this.title.match(/^Showing (\S+)/)).foreach(([_, order]) => {
+                    if (ARTICLE_ORDER.indexOf(order) >= 0) {
+                        done = true;
+                    } else {
+                        this.click();
+                    }
+                });
+                return done;
+            }, "title").clickthis();
+        });
     }
 
     let (
