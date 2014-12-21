@@ -64,19 +64,21 @@
 
     function toggle_order(I) {
         const $ = $$(I);
-        $("button#articles_order_button[title]").each(function () {
-            $(this).onAttrChange(() => {
-                let done = false;
-                maybe(this.title.match(/^Showing (\S+)/)).foreach(([_, order]) => {
-                    if (ARTICLE_ORDER.indexOf(order) >= 0) {
-                        done = true;
-                    } else {
-                        this.click();
-                    }
+        const button = $("button#articles_order_button");
+        function click() {
+            button.clickthis();
+            $.window.setTimeout(() => {
+                const title = button.attr("title");
+                maybe(
+                    button.attr("title").match(/^Showing (\S+)/)
+                ).foreach(([_, order]) => {
+                    if (ARTICLE_ORDER.indexOf(order) < 0)
+                        click();
                 });
-                return done;
-            }, "title").clickthis();
-        });
+            }, 500);
+        }
+        click();
+    }
     }
 
     let (
