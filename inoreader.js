@@ -24,6 +24,8 @@
 
     const INOREADER_LINKS =
         "//div[@id='tree_pane']//*[" +
+          "not(ancestor::div[contains(@class,'_selected')])" +
+        "][" +
           "self::span[" +
             "contains(@class,'tree_sub_node') or contains(@class,'tree_node')" +
           "] or self::img[" +
@@ -31,7 +33,11 @@
           "]" +
         "]" +
         "|" +
-        "//div[@id='subscriptions_buttons']//*[self::a or self::button]" +
+        "//div[@id='subscriptions_buttons']//*[" +
+          "self::a or self::button" +
+        "][" +
+          "not(parent::div[contains(@class,'view_toolbar_inner')])" +
+        "]" +
         "|" +
         "//div[@id='reader_pane']//a";
 
