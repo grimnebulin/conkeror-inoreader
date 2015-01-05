@@ -85,7 +85,6 @@
         }
         click();
     }
-    }
 
     let (
         [enable, disable] = setup_mode(
