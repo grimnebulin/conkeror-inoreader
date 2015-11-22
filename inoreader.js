@@ -56,6 +56,8 @@
     define_key(inoreader_keymap, "C-M-N", scroll_subscriptions(+25));
     define_key(inoreader_keymap, "C-M-P", scroll_subscriptions(-25));
     define_key(inoreader_keymap, "C-c C-t", toggle_order);
+    define_key(inoreader_keymap, "C-c C-v C-a", view("all"));
+    define_key(inoreader_keymap, "C-c C-v C-u", view("updated"));
 
     function scroll_subscriptions(offset) {
         return function (I) {
@@ -74,7 +76,6 @@
         function click() {
             button.clickthis();
             $.window.setTimeout(() => {
-                const title = button.attr("title");
                 maybe(
                     button.attr("title").match(/^Showing (\S+)/)
                 ).foreach(([_, order]) => {
@@ -84,6 +85,12 @@
             }, 500);
         }
         click();
+    }
+
+    function view(type) {
+        return function (I) {
+            $$(I)("#subscriptions_radio_" + type).clickthis();
+        };
     }
 
     let (
