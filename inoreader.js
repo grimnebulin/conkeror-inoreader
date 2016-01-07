@@ -1,3 +1,5 @@
+"use strict";
+
 //  A page mode for the site inoreader.com.  Performs the following
 //  steps:
 //
@@ -98,14 +100,15 @@
             { normal: inoreader_keymap },
             { follow: browser_object_inoreader_links }
         )
-    )
-    define_page_mode(
-        "inoreader-mode",
-        /^https?:\/\/(?:www\.)?inoreader\.com/,
-        enable,
-        disable,
-        $display_name = "Inoreader"
-    );
+    ) {
+        define_page_mode(
+            "inoreader-mode",
+                /^https?:\/\/(?:www\.)?inoreader\.com/,
+            enable,
+            disable,
+            $display_name = "Inoreader"
+        );
+    }
 
     page_mode_activate(inoreader_mode);
 
