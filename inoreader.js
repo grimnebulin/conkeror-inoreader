@@ -36,13 +36,6 @@
 
 (function () {
 
-    const INOREADER_STYLE =
-        "<style type='text/css'>" +
-        "#reader_pane code {" +
-        "display: inline; padding: 0; font-family: monospace;" +
-        "font-size: inherit; border: none; color: inherit;" +
-        "}</style>";
-
     const INOREADER_LINKS =
         "//div[@id='tree_pane']//*[" +
           "not(ancestor::div[contains(@class,'_selected')])" +
@@ -114,41 +107,27 @@
         };
     }
 
-    let (
-        [enable, disable] = setup_mode(
-            { normal: inoreader_keymap },
-            { follow: browser_object_inoreader_links }
-        )
-    ) {
-        define_page_mode(
-            "inoreader-mode",
-                /^https?:\/\/(?:www\.)?inoreader\.com/,
-            enable,
-            disable,
-            $display_name = "Inoreader"
-        );
-    }
+    const [enable, disable] = setup_mode(
+        { normal: inoreader_keymap },
+        { follow: browser_object_inoreader_links }
+    );
+
+    define_page_mode(
+        "inoreader-mode",
+        /^https?:\/\/(?:www\.)?inoreader\.com/,
+        enable,
+        disable,
+        $display_name = "Inoreader"
+    );
 
     page_mode_activate(inoreader_mode);
 
-    function ignore_keydown_event(e) {
-        return e.keyCode == 32  // space
-            || e.keyCode == 70  // F
-            || e.keyCode == 80  // P
-            || e.keyCode == 83  // S
-        ;
-    }
-
-    function inoreader_dom_loaded_hook($) {
-        $(INOREADER_STYLE).appendTo("head");
-        $("body").keydown(function (e) {
-            if (ignore_keydown_event(e))
-                e.stopImmediatePropagation();
-            if (e.keyCode == 83 && e.ctrlKey && e.shiftKey)
-                $(".article_current .footer_fav_img > a").clickthis();
-        });
-    }
-
-    on_dom_loaded(/inoreader\.com/, inoreader_dom_loaded_hook);
-
 })();
+
+function inoreader_ignore_keydown_event(e) {
+    return e.keyCode == 32  // space
+        || e.keyCode == 70  // F
+        || e.keyCode == 80  // P
+        || e.keyCode == 83  // S
+    ;
+}
