@@ -34,7 +34,7 @@
 //  Adds a command bound to control-shift-S to "star" the currently
 //  viewed article.
 
-(function () {
+conkeror.inoreader_alternate_view = (function () {
 
     const INOREADER_LINKS =
         "//div[@id='tree_pane']//*[" +
@@ -122,7 +122,36 @@
 
     page_mode_activate(inoreader_mode);
 
+    const alternate_view = { };
+
+    function view_alternate(I) {
+        const $ = $$(I);
+        const title = $("#sb_rp_heading").text();
+        const callback = alternate_view[title];
+        if (callback) {
+            const article = $.inoreader_current_article();
+            if (article.length > 0) {
+                callback(article, $, I);
+            } else {
+                I.minibuffer.message("No current article");
+            }
+        } else {
+            I.minibuffer.message("No alternate view defined for feed " + title);
+        }
+    }
+
+    define_key(inoreader_keymap, "V", view_alternate);
+
+    return function (title, callback) {
+        alternate_view[title] = callback;
+    };
+
 })();
+
+$$.static.inoreader_current_article = function (/* selector */) {
+    const article = this("#reader_pane div.article_current");
+    return arguments.length === 0 ? article : article.find(arguments[0]);
+};
 
 function inoreader_ignore_keydown_event(e) {
     return e.keyCode == 32  // space

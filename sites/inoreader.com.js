@@ -10,5 +10,5 @@ $("body").keydown(function (e) {
     if (inoreader_ignore_keydown_event(e))
         e.stopImmediatePropagation();
     if (e.keyCode == 83 && e.ctrlKey && e.shiftKey)
-        $(".article_current .footer_fav_img > a").clickthis();
+        $.inoreader_current_article(".footer_fav_img > a").clickthis();
 });
