@@ -122,16 +122,15 @@ conkeror.inoreader_alternate_view = (function () {
 
     page_mode_activate(inoreader_mode);
 
-    const alternate_view = { };
+    const alternate_view = new Map;
 
     function view_alternate(I) {
         const $ = $$(I);
+        const article = $.inoreader_current_article();
         const title = $("#sb_rp_heading").text();
-        const callback = alternate_view[title];
-        if (callback) {
-            const article = $.inoreader_current_article();
+        if (alternate_view.has(title)) {
             if (article.length > 0) {
-                callback(article, $, I);
+                alternate_view.get(title)(article, $, I);
             } else {
                 I.minibuffer.message("No current article");
             }
@@ -143,7 +142,7 @@ conkeror.inoreader_alternate_view = (function () {
     define_key(inoreader_keymap, "V", view_alternate);
 
     return function (title, callback) {
-        alternate_view[title] = callback;
+        alternate_view.set(title, callback);
     };
 
 })();
