@@ -127,7 +127,10 @@ conkeror.inoreader_alternate_view = (function () {
     function view_alternate(I) {
         const $ = $$(I);
         const article = $.inoreader_current_article();
-        const title = $("#sb_rp_heading").text();
+        const title = article.find("a[id^='article_feed_info_link_']")
+              .text()
+              .replace(/^\s+/, "")
+              .replace(/\s+$/, "");
         if (alternate_view.has(title)) {
             if (article.length > 0) {
                 alternate_view.get(title)(article, $, I);
