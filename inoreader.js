@@ -168,5 +168,6 @@ function inoreader_ignore_keydown_event(e) {
         || e.keyCode == 70  // F
         || e.keyCode == 80  // P
         || e.keyCode == 83  // S
+        || e.keyCode == 53  // 5 (so C-x 5 f works)
     ;
 }
