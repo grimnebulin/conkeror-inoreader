@@ -127,19 +127,27 @@ conkeror.inoreader_alternate_view = (function () {
     function view_alternate(I) {
         const $ = $$(I);
         const article = $.inoreader_current_article();
-        const title = article.find("a[id^='article_feed_info_link_']")
-              .text()
-              .replace(/^\s+/, "")
-              .replace(/\s+$/, "");
-        if (alternate_view.has(title)) {
-            if (article.length > 0) {
-                alternate_view.get(title)(article, $, I);
-            } else {
-                I.minibuffer.message("No current article");
-            }
-        } else {
-            I.minibuffer.message("No alternate view defined for feed " + title);
+
+        if (article.length === 0) {
+            I.minibuffer.message("No current article");
+            return;
         }
+
+        const titleLink = article.find("a[id^='article_feed_info_link_']");
+
+        if (titleLink.length === 0) {
+            I.minibuffer.message("Cannot locate feed title");
+            return;
+        }
+
+        const title = titleLink.text().replace(/^\s+/, "").replace(/\s+$/, "");
+
+        alternate_view.lookup(title).foreach(
+            f => f(article, $, I)
+        ).orElse(
+            () => I.minibuffer.message("No alternate view defined for feed " + title)
+        );
+
     }
 
     define_key(inoreader_keymap, "V", view_alternate);
