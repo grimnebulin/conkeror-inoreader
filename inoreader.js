@@ -36,24 +36,25 @@
 
 conkeror.inoreader_alternate_view = (function () {
 
-    const INOREADER_LINKS =
-        "//div[@id='tree_pane']//*[" +
-          "not(ancestor::div[contains(@class,'_selected')])" +
-        "][" +
-          "self::span[" +
-            "contains(@class,'tree_sub_node') or contains(@class,'tree_node')" +
-          "] or self::img[" +
-            "contains(@src,'images/icon_arrow')" +
-          "]" +
-        "]" +
-        "|" +
-        "//div[@id='subscriptions_buttons']//*[" +
-          "self::a or self::button" +
-        "][" +
-          "not(parent::div[contains(@class,'view_toolbar_inner')])" +
-        "]" +
-        "|" +
-        "//div[@id='reader_pane']//a";
+    const INOREADER_LINKS = `
+        //div[@id='tree_pane']//*[
+          not(ancestor::div[contains(@class,'_selected')])
+        ][
+          self::span[
+            contains(@class,'tree_sub_node') or contains(@class,'tree_node')
+          ] or self::img[
+            contains(@src,'images/icon_arrow')
+          ]
+        ]
+        |
+        //div[@id='subscriptions_buttons']//*[
+          self::a or self::button
+        ][
+          not(parent::div[contains(@class,'view_toolbar_inner')])
+        ]
+        |
+        //div[@id='reader_pane']//a
+    `;
 
     define_browser_object_class(
         "inoreader-links",
