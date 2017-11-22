@@ -36,8 +36,8 @@
 
 conkeror.inoreader_alternate_view = (function () {
 
-    const INOREADER_LINKS =
-        `//div[@id='tree_pane']//*[
+    const INOREADER_LINKS = `
+        //div[@id='tree_pane']//*[
           not(ancestor::div[contains(@class,'_selected')])
         ][
           self::span[
