@@ -36,8 +36,8 @@
 
 conkeror.inoreader_alternate_view = (function () {
 
-    const INOREADER_LINKS =
-        `//div[@id='tree_pane']//*[
+    const INOREADER_LINKS = `
+        //div[@id='tree_pane']//*[
           not(ancestor::div[contains(@class,'_selected')])
         ][
           self::span[
@@ -53,7 +53,8 @@ conkeror.inoreader_alternate_view = (function () {
           not(parent::div[contains(@class,'view_toolbar_inner')])
         ]
         |
-        //div[@id='reader_pane']//a`;
+        //div[@id='reader_pane']//a
+    `;
 
     define_browser_object_class(
         "inoreader-links",

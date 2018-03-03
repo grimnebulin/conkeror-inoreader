@@ -1,8 +1,15 @@
-const INOREADER_STYLE = "<style type='text/css'>" +
-      "#reader_pane code {" +
-      "display: inline; padding: 0; font-family: monospace;" +
-      "font-size: inherit; border: none; color: inherit;" +
-      "}</style>";
+const INOREADER_STYLE = `
+<style type='text/css'>
+  #reader_pane code {
+    display: inline;
+    padding: 0;
+    font-family: monospace;
+    font-size: inherit;
+    border: none;
+    color: inherit;
+  }
+</style>
+`;
 
 $(INOREADER_STYLE).appendTo("head");
 
