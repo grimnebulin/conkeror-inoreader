@@ -163,6 +163,10 @@ $$.static.inoreader_current_article = function (/* selector */) {
     return arguments.length === 0 ? article : article.find(arguments[0]);
 };
 
+$$.fn.inoreader_link = function () {
+    return this.find("div.article_title a");
+};
+
 function inoreader_ignore_keydown_event(e) {
     return e.keyCode == 32  // space
         || e.keyCode == 70  // F
