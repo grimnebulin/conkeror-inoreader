@@ -71,8 +71,7 @@ conkeror.inoreader_alternate_view = (function () {
     define_key(inoreader_keymap, "C-M-N", scroll_subscriptions(+25));
     define_key(inoreader_keymap, "C-M-P", scroll_subscriptions(-25));
     define_key(inoreader_keymap, "C-c C-t", toggle_order);
-    define_key(inoreader_keymap, "C-c C-v C-a", view("all"));
-    define_key(inoreader_keymap, "C-c C-v C-u", view("updated"));
+    define_key(inoreader_keymap, "C-c C-s", toggle_subscriptions);
 
     function scroll_subscriptions(offset) {
         return function (I) {
@@ -80,32 +79,15 @@ conkeror.inoreader_alternate_view = (function () {
         };
     }
 
-    const ARTICLE_ORDER = [ "newest", "oldest" ];
-
-    // Toggle article order between newest-first and oldest-first,
-    // bypassing the popular-first option:
-
     function toggle_order(I) {
         const $ = $$(I);
-        const button = $("button#articles_order_button");
-        function click() {
-            button.clickthis();
-            $.window.setTimeout(() => {
-                maybe(
-                    button.attr("title").match(/^Showing (\S+)/)
-                ).foreach(([_, order]) => {
-                    if (ARTICLE_ORDER.indexOf(order) < 0)
-                        click();
-                });
-            }, 500);
-        }
-        click();
+        $.xpath(xpath`//div[@id='sb_rp_section_options']/..//div[${'inno_toolbar_button_menu_item'}]`).filter(function () {
+            return /(Newest|Oldest) first/.test(this.innerText) && $(this).children("span").length == 0;
+        }).get(0).click();
     }
 
-    function view(type) {
-        return function (I) {
-            $$(I)("#subscriptions_radio_" + type).clickthis();
-        };
+    function toggle_subscriptions(I) {
+        $$(I).xpath("//div[(@id='subscriptions_radio_all' or @id='subscriptions_radio_updated') and not(./span)]").clickthis();
     }
 
     const [enable, disable] = setup_mode(
