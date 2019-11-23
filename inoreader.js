@@ -90,9 +90,25 @@ conkeror.inoreader_alternate_view = (function () {
         $$(I).xpath("//div[(@id='subscriptions_radio_all' or @id='subscriptions_radio_updated') and not(./span)]").clickthis();
     }
 
+    function kill_some_keys(event) {
+        const elem = event.target;
+        if (elem instanceof Ci.nsIDOMHTMLInputElement) return;
+        if (elem instanceof Ci.nsIDOMHTMLTextAreaElement) return;
+        if (event.key !== "f") return;
+        event.stopPropagation();
+    }
+
     const [enable, disable] = setup_mode(
         { normal: inoreader_keymap },
-        { follow: browser_object_inoreader_links }
+        { follow: browser_object_inoreader_links },
+        buffer => {
+            buffer.browser.addEventListener("keyup", kill_some_keys, true);
+            buffer.browser.addEventListener("keydown", kill_some_keys, true);
+        },
+        buffer => {
+            buffer.browser.removeEventListener("keyup", kill_some_keys, true);
+            buffer.browser.removeEventListener("keydown", kill_some_keys, true);
+        }
     );
 
     define_page_mode(
